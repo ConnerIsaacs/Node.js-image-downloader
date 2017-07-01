@@ -1,5 +1,7 @@
 //Uses request, url-parse, cheerio, download-image, async, promp-sync, node-xlsx
-
+//takes a url, finds all the images on the website, gets all the best SEO keywrods from the given excel file, and renames the images to 
+//seo-friendly names while they download
+//@Written by Conner Isaacs
 
 //initializes all npm's
 var request = require('request');
