@@ -1,7 +1,9 @@
-//Uses request, url-parse, cheerio, download-image, async, promp-sync, node-xlsx
-//takes a url, finds all the images on the website, gets all the best SEO keywrods from the given excel file, and renames the images to 
+//takes a url, finds all the images on the website, and downloads them all to the given directory
 //seo-friendly names while they download
 //@Written by Conner Isaacs
+
+//Uses request, url-parse, cheerio, download-image, async, promp-sync
+
 
 //initializes all npm's
 var request = require('request');
@@ -10,20 +12,18 @@ var cheerio = require('cheerio');
 var download = require('download-image');
 var async = require('async');
 var prompt = require('prompt-sync')();
-var xlsx = require('node-xlsx');
+
+
 //Set needed variables
 var page = prompt("Enter a URL: "); //get Site to get images from
 var directory = prompt("Directory to download to: "); //get directory to download to
-var Excel_File = prompt("Enter excel file: ");
 var relativeLinks = [page];
 var srcArray = [];
 var count = 0;
 var keywords = [];
 var topTwenty = 1;
 var pastTwenty = 21;
-var city = prompt("City of company: ");
-var state = prompt("State of company: ");
-grabKeyWords(Excel_File);
+
 request(page,(error,response,body)=>{
     if(error){
         console.log("Error here");
@@ -87,11 +87,11 @@ function uniq(a) {
 
 //Adds www. to each url in the passed array if it does not have it already
 function addWWW(arr){
-        for(var i = 0; i < arr.length;i++){
-            if(arr[i].indexOf("www.")===-1){
-                var x = arr[i].indexOf(":");
-                arr[i] = arr[i].substring(0,x+2)+"www."+arr[i].substring(x+2);
-            }
+    for(var i = 0; i < arr.length;i++){
+        if(arr[i].indexOf("www.")===-1){
+            var x = arr[i].indexOf(":");
+            arr[i] = arr[i].substring(0,x+2)+"www."+arr[i].substring(x+2);
+        }
     }
 }
 
@@ -99,7 +99,7 @@ function addWWW(arr){
 //Function that downloads all the images in the source array
 function dlImages(arr){
     for(var i = 0; i < arr.length;i++){
-        download(arr[i],directory+'/'+keywords[topTwenty]+'-'+city+'-'+state+'-'+keywords[pastTwenty]+".jpg");
+        download(arr[i],directory+'/image'+i+".jpg");
         topTwenty++;
         pastTwenty++;
         if(topTwenty==21){
@@ -114,13 +114,15 @@ function dlImages(arr){
 //grabs keywords from excel file and replaces spaces with '-' character
 function grabKeyWords(x){
     var obj = xlsx.parse('./'+x)[1].data; // parses a file 
-for(var i = 0; i < obj.length;i++){
-    if(obj[i][0]!=undefined){
-        obj[i][0] = obj[i][0].replace(/[\s]/g,"-");
-        keywords.push(obj[i][0]);
-    }  
+    for(var i = 0; i < obj.length;i++){
+        if(obj[i][0]!=undefined){
+            obj[i][0] = obj[i][0].replace(/[\s]/g,"-");
+            keywords.push(obj[i][0]);
+        }  
+    }
 }
-}
+
+
 
 
 
