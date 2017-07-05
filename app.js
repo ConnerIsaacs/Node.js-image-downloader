@@ -1,7 +1,3 @@
-//takes a url, finds all the images on the website, and downloads them all to the given directory
-//seo-friendly names while they download
-//@Written by Conner Isaacs
-
 //Uses request, url-parse, cheerio, download-image, async, promp-sync
 
 
@@ -15,7 +11,11 @@ var prompt = require('prompt-sync')();
 
 
 //Set needed variables
-var page = prompt("Enter a URL: "); //get Site to get images from
+//get Site to get images from (include http/https & end with a /)
+//ex: https://www.riotgames.com/
+var page = prompt("Enter a URL: "); 
+
+//Must be a folder in the same folder as imageCrawler.js.  type ./(folderName)
 var directory = prompt("Directory to download to: "); //get directory to download to
 var relativeLinks = [page];
 var srcArray = [];
@@ -121,8 +121,3 @@ function grabKeyWords(x){
         }  
     }
 }
-
-
-
-
-
