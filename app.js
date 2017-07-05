@@ -1,5 +1,5 @@
 //Uses request, url-parse, cheerio, download-image, async, promp-sync
-
+//Written by Conner Isaacs
 
 //initializes all npm's
 var request = require('request');
